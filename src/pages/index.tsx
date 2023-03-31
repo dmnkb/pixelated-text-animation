@@ -1,32 +1,25 @@
+import { Center, Text3D } from '@react-three/drei';
 import { Canvas, useFrame, ThreeElements, useThree } from '@react-three/fiber';
 import Head from 'next/head';
-import { useLayoutEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
+import { useLayoutEffect, useRef } from 'react';
 
 const Scene = (props: ThreeElements['mesh']) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const mesh = useRef<THREE.Mesh>(null!);
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
+  const mesh = useRef<any>(null!);
 
-  useFrame((state, delta) => (mesh.current.rotation.x += delta));
+  useFrame((state, delta) => (mesh.current.rotation.z -= delta));
 
   const gl = useThree((state) => state.gl);
 
-  useLayoutEffect(() => gl.setPixelRatio(0.2));
+  useLayoutEffect(() => gl.setPixelRatio(0.1));
 
   return (
-    <mesh
-      {...props}
-      onClick={(_event) => setActive(!active)}
-      onPointerOut={(_event) => setHover(false)}
-      onPointerOver={(_event) => setHover(true)}
-      ref={mesh}
-      scale={active ? 1.5 : 1}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-    </mesh>
+    <Center ref={mesh}>
+      <Text3D font={'font/pressStart2P.json'} letterSpacing={-0.2} {...props}>
+        <meshNormalMaterial />
+        &lt;3
+      </Text3D>
+    </Center>
   );
 };
 
@@ -41,10 +34,7 @@ const Home = () => (
     <div className="container flex h-screen items-center">
       <div className="h-[80%] w-full bg-gray">
         <Canvas gl={{ antialias: false }}>
-          <ambientLight />
-          <pointLight position={[10, 10, 10]} />
-          <Scene position={[-1.2, 0, 0]} />
-          <Scene position={[1.2, 0, 0]} />
+          <Scene position={[0, 0, 0]} scale={2} />
         </Canvas>
       </div>
     </div>
