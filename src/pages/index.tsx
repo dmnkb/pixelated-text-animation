@@ -1,16 +1,19 @@
-import { Canvas, useFrame, ThreeElements } from '@react-three/fiber';
+import { Canvas, useFrame, ThreeElements, useThree } from '@react-three/fiber';
 import Head from 'next/head';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-function Box(props: ThreeElements['mesh']) {
+const Scene = (props: ThreeElements['mesh']) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const mesh = useRef<THREE.Mesh>(null!);
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
 
   useFrame((state, delta) => (mesh.current.rotation.x += delta));
+
+  const gl = useThree((state) => state.gl);
+
+  useLayoutEffect(() => gl.setPixelRatio(0.2));
 
   return (
     <mesh
@@ -25,7 +28,7 @@ function Box(props: ThreeElements['mesh']) {
       <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
   );
-}
+};
 
 const Home = () => (
   <>
@@ -37,11 +40,11 @@ const Home = () => (
     </Head>
     <div className="container flex h-screen items-center">
       <div className="h-[80%] w-full bg-gray">
-        <Canvas>
+        <Canvas gl={{ antialias: false }}>
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
-          <Box position={[-1.2, 0, 0]} />
-          <Box position={[1.2, 0, 0]} />
+          <Scene position={[-1.2, 0, 0]} />
+          <Scene position={[1.2, 0, 0]} />
         </Canvas>
       </div>
     </div>
