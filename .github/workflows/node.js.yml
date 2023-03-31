@@ -21,13 +21,6 @@ jobs:
           node-version: 16.13.1
           cache: 'yarn'
       - run: yarn
-      - name: Add .env.local file
-        run: |
-          touch ./.env.local
-          echo GRAPHQL_ENDPOINT=${{ secrets.GRAPHQL_ENDPOINT }} >> ./.env.local
-          echo NEXT_PUBLIC_FORM_ENDPOINT=${{ secrets.NEXT_PUBLIC_FORM_ENDPOINT }} >> ./.env.local
-      - run: yarn download-schema
-      - run: yarn generate-types
       - run: yarn tsc
       - run: yarn lint
       - run: yarn build
