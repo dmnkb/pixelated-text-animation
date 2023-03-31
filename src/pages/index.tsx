@@ -1,23 +1,28 @@
-import { Center, Text3D } from '@react-three/drei';
-import { Canvas, useFrame, ThreeElements, useThree } from '@react-three/fiber';
+import { Center, Edges, Text3D } from '@react-three/drei';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import Head from 'next/head';
 import { useLayoutEffect, useRef } from 'react';
 
-const Scene = (props: ThreeElements['mesh']) => {
+const Scene = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const mesh = useRef<any>(null!);
 
-  useFrame((state, delta) => (mesh.current.rotation.z -= delta));
+  const factor = 0.25;
+
+  useFrame((state, delta) => (mesh.current.rotation.z -= delta * factor));
+  useFrame((state, delta) => (mesh.current.rotation.x += delta * factor));
+  useFrame((state, delta) => (mesh.current.rotation.z -= delta * factor));
 
   const gl = useThree((state) => state.gl);
 
-  useLayoutEffect(() => gl.setPixelRatio(0.1));
+  useLayoutEffect(() => gl.setPixelRatio(0.2));
 
   return (
-    <Center ref={mesh}>
-      <Text3D font={'font/pressStart2P.json'} letterSpacing={-0.2} {...props}>
+    <Center position={[0, 0, -100]} ref={mesh} scale={50}>
+      <Text3D font={'font/pressStart2P.json'} letterSpacing={-0.2}>
         <meshNormalMaterial />
         &lt;3
+        <Edges />
       </Text3D>
     </Center>
   );
@@ -34,7 +39,7 @@ const Home = () => (
     <div className="container flex h-screen items-center">
       <div className="h-[80%] w-full bg-gray">
         <Canvas gl={{ antialias: false }}>
-          <Scene position={[0, 0, 0]} scale={2} />
+          <Scene />
         </Canvas>
       </div>
     </div>
