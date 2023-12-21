@@ -1,4 +1,31 @@
+import { Canvas, useFrame, ThreeElements } from '@react-three/fiber';
 import Head from 'next/head';
+import { useRef, useState } from 'react';
+import * as THREE from 'three';
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+function Box(props: ThreeElements['mesh']) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const mesh = useRef<THREE.Mesh>(null!);
+  const [hovered, setHover] = useState(false);
+  const [active, setActive] = useState(false);
+
+  useFrame((state, delta) => (mesh.current.rotation.x += delta));
+
+  return (
+    <mesh
+      {...props}
+      onClick={(_event) => setActive(!active)}
+      onPointerOut={(_event) => setHover(false)}
+      onPointerOver={(_event) => setHover(true)}
+      ref={mesh}
+      scale={active ? 1.5 : 1}
+    >
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+    </mesh>
+  );
+}
 
 const Home = () => (
   <>
@@ -9,7 +36,14 @@ const Home = () => (
       <link href="/favicon.ico" rel="icon" />
     </Head>
     <div className="container flex h-screen items-center">
-      <h1 className="text-3xl font-bold underline ">Hello world!</h1>
+      <div className="h-[80%] w-full bg-gray">
+        <Canvas>
+          <ambientLight />
+          <pointLight position={[10, 10, 10]} />
+          <Box position={[-1.2, 0, 0]} />
+          <Box position={[1.2, 0, 0]} />
+        </Canvas>
+      </div>
     </div>
   </>
 );
