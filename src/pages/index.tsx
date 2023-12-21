@@ -8,8 +8,8 @@ const Home = () => (
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <link href="/favicon.ico" rel="icon" />
     </Head>
-    <div className="container text-red-500">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+    <div className="container flex h-screen items-center">
+      <h1 className="text-3xl font-bold underline ">Hello world!</h1>
     </div>
   </>
 );
