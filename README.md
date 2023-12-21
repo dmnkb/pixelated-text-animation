@@ -1,6 +1,6 @@
 [![Node.js CI](https://github.com/dmnkb/pixelated-text-animation/actions/workflows/node.js.yml/badge.svg)](https://github.com/dmnkb/pixelated-text-animation/actions/workflows/node.js.yml)
 
-![preview](https://user-images.githubusercontent.com/44138768/229245160-6695603e-9673-4407-b4ed-bdfd7a1f1990.jpg)
+https://user-images.githubusercontent.com/44138768/231533052-aa2a56fc-7d66-48d6-a6d4-6583d58d7b9a.mov
 
 ### Uses: 
 - [Next.js](https://nextjs.org/)
